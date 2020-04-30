@@ -30,7 +30,7 @@ except FileNotFoundError:
 
 with open(args["list"], "r", encoding="utf-8") as fp:  # IP list should be provided here each for each line
     for line in fp:
-        ip_list.append(line.split(" ")[1].strip())
+        ip_list.append(line.strip())
 
 with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output file
     csv_writer = csv.writer(fp, delimiter=",")
@@ -39,7 +39,7 @@ with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output
             continue
         try:
             info = api.host(ip)
-            time.sleep(5)
+            time.sleep(1)
             # parsed = json.dumps(info)
             # parsed = json.loads(parsed)
             # print(json.dumps(parsed, indent=4, sort_keys=True))
@@ -62,7 +62,7 @@ with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output
                 processed_ips.add(ip)
                 pickle.dump(processed_ips, pfp)
         except shodan.exception.APIError as e:
-            time.sleep(5)
+            time.sleep(1)
             with open("processed_ips", "wb") as pfp:
                 processed_ips.add(ip)
                 pickle.dump(processed_ips, pfp)
@@ -88,11 +88,9 @@ with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output
             x = words.count(i)
             words_counted.append((i, x))
         count_set = set(words_counted)
-
+        loop_dict = {1: "ip_count", 2: "os_count", 3: "asn_count", 4: "port_count", 5: "vulnerability_count"}
         """Sorted by descending order of 2nd element which is occurence count and writes to csv"""
-        with open(str(idx) + ".csv", 'w', newline='') as f:
+        with open(loop_dict[idx] + ".csv", 'w', newline='') as f:
             writer = csv.writer(f)
             writer.writerows(sorted(count_set, key=take_second,
                                     reverse=True))
-
-
