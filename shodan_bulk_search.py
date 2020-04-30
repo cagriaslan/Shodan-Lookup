@@ -31,6 +31,7 @@ except FileNotFoundError:
 with open(args["list"], "r", encoding="utf-8") as fp:  # IP list should be provided here each for each line
     for line in fp:
         ip_list.append(line.split(" ")[1].strip())
+
 with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output file
     csv_writer = csv.writer(fp, delimiter=",")
     for ip in tqdm(ip_list):
@@ -51,6 +52,7 @@ with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output
                 asn = info["asn"]
             except KeyError as e:
                 asn = "none"
+
             output += ("{},{},{},{},{}\n".format(info["ip_str"],
                                                info["os"],
                                                asn,
@@ -92,6 +94,5 @@ with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output
             writer = csv.writer(f)
             writer.writerows(sorted(count_set, key=take_second,
                                     reverse=True))
-
 
 
