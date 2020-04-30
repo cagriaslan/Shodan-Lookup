@@ -28,10 +28,11 @@ try:
 except FileNotFoundError:
     print("There aren't any stored IPs.")
 
-with open("ip_list", "r", encoding="utf-8") as fp:  # IP list should be provided here each for each line
+with open(args["list"], "r", encoding="utf-8") as fp:  # IP list should be provided here each for each line
     for line in fp:
         ip_list.append(line.split(" ")[1].strip())
-
+with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output file
+    csv_writer = csv.writer(fp, delimiter=",")
     for ip in tqdm(ip_list):
         if ip in processed_ips:
             continue
@@ -50,7 +51,7 @@ with open("ip_list", "r", encoding="utf-8") as fp:  # IP list should be provided
                 asn = info["asn"]
             except KeyError as e:
                 asn = "none"
-            output += ("{} {} {} {} {}\n".format(info["ip_str"],
+            output += ("{},{},{},{},{}\n".format(info["ip_str"],
                                                info["os"],
                                                asn,
                                                " ".join(str(port) for port in info["ports"]),
@@ -66,13 +67,15 @@ with open("ip_list", "r", encoding="utf-8") as fp:  # IP list should be provided
             print("For IP:" + ip + " this error is produced:" + str(e))
 
     first_line = output.partition('\n')[0]
-    column_number = first_line.count(' ') + 1
+    column_number = first_line.count(',') + 1
     for idx in range(column_number):
         words = []
         csv_words = []
 
         for row in output.splitlines():
-            row = row.split(" ")
+            row = row.split(",")
+            if idx == 0:
+                csv_writer.writerow(row)
             csv_words = row[idx].split(" ")
 
             for i in csv_words:
