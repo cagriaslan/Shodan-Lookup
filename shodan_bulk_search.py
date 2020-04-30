@@ -1,12 +1,26 @@
+import csv
 import shodan
 import time
 import pickle
+import argparse
 from tqdm import tqdm
+
+
+def take_second(elem):
+    return elem[1]
+
+
+"""Argparse for terminal execution"""
+ap = argparse.ArgumentParser()
+ap.add_argument("-l", "--list", required=True, help="Txt file that has list of IP addresses.")
+args = vars(ap.parse_args())
+"""END argparse for terminal execution"""
 
 api = shodan.Shodan('APIKEY')
 
 ip_list = []
 processed_ips = set()
+output = ""
 
 try:
     with open("processed_ips", "rb") as fp:  # for handling many IPs, this way processed IPs will be stored and reloaded
@@ -80,4 +94,5 @@ with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output
             writer = csv.writer(f)
             writer.writerows(sorted(count_set, key=take_second,
                                     reverse=True))
+
 
