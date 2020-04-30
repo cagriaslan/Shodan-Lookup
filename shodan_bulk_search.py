@@ -88,7 +88,7 @@ with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output
             x = words.count(i)
             words_counted.append((i, x))
         count_set = set(words_counted)
-        loop_dict = {1: "ip_count", 2: "os_count", 3: "asn_count", 4: "port_count", 5: "vulnerability_count"}
+        loop_dict = {0: "ip_count", 1: "os_count", 2: "asn_count", 3: "port_count", 4: "vulnerability_count"}
         """Sorted by descending order of 2nd element which is occurence count and writes to csv"""
         with open(loop_dict[idx] + ".csv", 'w', newline='') as f:
             writer = csv.writer(f)
