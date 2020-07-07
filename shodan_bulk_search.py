@@ -101,7 +101,8 @@ if __name__ == '__main__':
     """Argparse for terminal execution"""
     ap = argparse.ArgumentParser()
     ap.add_argument("-l", "--list", required=True, help="Txt file that has list of IP addresses.")
+    ap.add_argument("-s", "--shodan", required=True, help="Shodan API key")
     args = vars(ap.parse_args())
     """END argparse for terminal execution"""
-    sh = ShodanAnalyze("API_KEY", args["list"])
+    sh = ShodanAnalyze(args["shodan"], args["list"])
     sh.shodan_analyzer()
