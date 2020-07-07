@@ -30,7 +30,7 @@ class ShodanAnalyze:
 
         with open(self.ip_list_file, "r", encoding="utf-8") as fp:  # IP list should be provided here each for each line
             for line in fp:
-                ip_list.append(line.strip())
+                ip_list.append(line.split(",")[1].strip())
 
         with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output file
             csv_writer = csv.writer(fp, delimiter=",")
