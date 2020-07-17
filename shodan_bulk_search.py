@@ -30,6 +30,8 @@ class ShodanAnalyze:
 
         with open(self.ip_list_file, "r", encoding="utf-8") as fp:  # IP list should be provided here each for each line
             for line in fp:
+                if line.count(".") < 3:  # To eliminate anything except IPs
+                    continue
                 ip_list.append(line.split(",")[1].strip())
 
         with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output file
