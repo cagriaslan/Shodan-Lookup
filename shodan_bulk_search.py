@@ -38,12 +38,13 @@ class ShodanAnalyze:
         with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output file
             csv_writer = csv.writer(fp, delimiter=",")
             for ip in tqdm(ip_list):
+                #print("Sleeping 1 second")
+                time.sleep(1)
                 if ip in processed_ips:
                     print("skipping ", ip)
                     continue
                 try:
                     info = api.host(ip)
-                    time.sleep(2)
                     # parsed = json.dumps(info)
                     # parsed = json.loads(parsed)
                     # print(json.dumps(parsed, indent=4, sort_keys=True))
@@ -66,7 +67,6 @@ class ShodanAnalyze:
                         processed_ips.add(ip)
                         pickle.dump(processed_ips, pfp)
                 except shodan.exception.APIError as e:
-                    time.sleep(2)
                     with open("processed_ips", "wb") as pfp:
                         processed_ips.add(ip)
                         pickle.dump(processed_ips, pfp)
