@@ -37,12 +37,12 @@ class ShodanAnalyze:
 
         with open("output_file.csv", "w", newline='', encoding="UTF-8") as fp:  # output file
             csv_writer = csv.writer(fp, delimiter=",")
+            ip_list = set(ip_list)
             for ip in tqdm(ip_list):
-                #print("Sleeping 1 second")
-                time.sleep(1)
                 if ip in processed_ips:
                     print("skipping ", ip)
                     continue
+                time.sleep(1.5)
                 try:
                     info = api.host(ip)
                     # parsed = json.dumps(info)
